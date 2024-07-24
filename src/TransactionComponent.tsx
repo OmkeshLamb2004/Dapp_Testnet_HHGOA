@@ -59,13 +59,13 @@ type Order = {
 const OrderComponent: React.FC<Order> = ({ order }) => {
   const { garden } = useGarden();
   const [modelIsVisible, setModelIsVisible] = useState(false);
+  const [status, setStatus] = useState(order.status);
 
   const {
     ID: orderId,
     initiatorAtomicSwap,
     followerAtomicSwap,
     CreatedAt,
-    status: orderStatus,
   } = order;
   const parsedStatus = parseStatus(order);
   const wbtcAmount = formatUnits(initiatorAtomicSwap.amount, 8);
@@ -84,11 +84,24 @@ const OrderComponent: React.FC<Order> = ({ order }) => {
   const handleClick = async () => {
     if (!garden) return;
     const swapper = garden.getSwap(order);
-    const performedAction = await swapper.next();
-    console.log(
-      `Completed Action ${performedAction.action} with transaction hash: ${performedAction.output}`
-    );
-    setIsButtonEnabled(false);
+    try {
+      const performedAction = await swapper.next();
+      console.log(
+        `Completed Action ${performedAction.action} with transaction hash: ${performedAction.output}`
+      );
+      setStatus(2); // Update status to processing after the action
+      setIsButtonEnabled(false);
+
+      // Set a timeout to revert status after a certain period, if needed
+      setTimeout(() => {
+        setStatus(3); // Set to completed after a delay
+        setIsButtonEnabled(true);
+      }, 5000); // Delay of 5 seconds
+
+    } catch (error) {
+      console.error("Swap Error:", error);
+      setIsButtonEnabled(true);
+    }
   };
 
   const toggleModelVisible = () => setModelIsVisible((pre) => !pre);
@@ -96,15 +109,15 @@ const OrderComponent: React.FC<Order> = ({ order }) => {
   const orderCreatedAt = new Date(CreatedAt).getTime();
   const timePassedSinceCreation = new Date().getTime() - orderCreatedAt;
   const isOrderExpired =
-    (orderStatus === 1 || orderStatus === 6) &&
+    (status === 1 || status === 6) &&
     Math.floor(timePassedSinceCreation / 1000) / 60 > 3;
 
   let decoratedStatus = isOrderExpired ? "Order expired" : "";
 
-  console.log("ID", order.ID, "Status", orderStatus);
+  console.log("ID", order.ID, "Status", status);
 
   if (!decoratedStatus) {
-    switch (orderStatus) {
+    switch (status) {
       case 3:
         decoratedStatus = "Success";
         break;
@@ -191,7 +204,7 @@ function getUserFriendlyStatus(status: string, ID: number) {
     case Actions.UserCanRefund:
       return "Refund";
     case Actions.CounterpartyCanInitiate:
-      return "Awaiting counterparty deposite";
+      return "Awaiting counterparty deposit";
     default: {
       console.log(
         `Actual Status for ${ID} `,
@@ -261,11 +274,13 @@ const OrderPopUp: React.FC<PopUp> = ({
           <span className="pop-up-label">Created At</span>
           <span className="pop-up-value">{formattedDate}</span>
         </span>
+
         <span>
           <span className="pop-up-label">From</span>
           <span className="pop-up-value">{from}</span>
         </span>
         <span>
+
           <span className="pop-up-label">To</span>
           <span className="pop-up-value">{to}</span>
         </span>

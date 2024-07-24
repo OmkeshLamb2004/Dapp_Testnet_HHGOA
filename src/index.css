@@ -1,18 +1,117 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+:root {
+  --primary-color: #FFF8DB; /* Light cream background */
+  --secondary-color: #009688; /* Teal for accents */
+  --text-color: #304463; /* Deep blue text */
+  --box-shadow-light: rgba(0, 0, 0, 0.1) 0px 4px 8px;
+  --box-shadow-dark: rgba(0, 0, 0, 0.2) 0px 8px 16px;
+  --hover-color: #00796b; /* Darker teal on hover */
+  --button-hover-color: #00695c; /* Even darker teal for button */
+  --input-border-color: #D4BDAC; /* Light tan border */
+  --input-focus-color: #7D8ABC; /* Slate blue focus border */
+}
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-
+  height: 100%;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #009688 0%, #4db6ac 100%); /* Gradient background */
+  color: var(--text-color);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary-color);
+  animation: fadeIn 2s ease-out;
+}
+
+.container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--box-shadow-light);
+  width: 80%;
+  max-width: 800px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.container:hover {
+  transform: scale(1.02);
+  box-shadow: var(--box-shadow-dark);
+  background-color: #f9f9f9; /* Slightly darker background on hover */
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color); /* Teal heading color */
+  animation: slideIn 1s ease-out;
+}
+
+p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+  transform: scale(1.05); /* Slight zoom effect on button hover */
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--input-focus-color);
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 150, 136, 0.5);
+}
+
+/* Keyframes for animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
