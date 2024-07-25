@@ -2,69 +2,50 @@
 
 This project demonstrates how to use the [Garden SDK](https://docs.garden.finance/developers/sdk/) to create a simple dApp for swapping from WBTC to BTC.
 
-> [!NOTE]
-> For better developer experience, we are conducting the swap on a local network, but you can do the same on Testnet or Mainnet by changing the parameters.
 
 ## Features
 
-- **Merry** : Provides a comprehensive environment for multichain operations. 
-- **Swap Interface**: Easily swap from WBTC to BTC.
-- **Transaction Management**: Track and display the latest transactions.
-- **Garden SDK Integration**: Uses Garden SDK to make the swap possible.
-- **State Management**: We use [zustand](https://zustand-demo.pmnd.rs/) for state management.
+- Swap Interface: Easily swap from WBTC to BTC and vice versa.
+- Transaction Management: Track and display the latest transactions.
+- Garden SDK Integration: Uses Garden SDK to make the swap possible.
+- State Management: We use [zustand](https://zustand-demo.pmnd.rs/) for state management.
 
 ## Environment Setup
 
-To improve the developer experience, we will be using [Merry](https://docs.garden.finance/developers/merry/) to set up the multichain environment necessary for performing a swap. This setup includes all essential components such as the [Orderbook](https://docs.garden.finance/developers/fundamentals/orderbook/), [Filler](https://docs.garden.finance/developers/fundamentals/filler/), [Faucet](https://www.alchemy.com/faucets#faucets-switchback-right-light), and nodes for Bitcoin, Ethereum, and Arbitrum.
+This setup includes all essential components such as the [Orderbook](https://docs.garden.finance/developers/fundamentals/orderbook/), [Filler](https://docs.garden.finance/developers/fundamentals/filler/), [Faucet](https://www.alchemy.com/faucets#faucets-switchback-right-light), and nodes for Bitcoin, Ethereum, and Arbitrum.
 
-1. Install Merry
-
-```bash
-curl https://get.merry.dev | bash
-```
-
-2. Start Merry
-
-```bash
-# Start Merry with explorer
-merry go
-```
-
-or
-
-```bash
-# Start Merry without explorer
-merry go --headless
-```
-
-3. Fund your EVM address
-
-```bash
- merry faucet --to <EVM Address>
-```
 
 ## Project Setup
 
 1. Clone the repository
 
-```bash
-git clone https://github.com/gardenfi/demo-app
-cd demo-app
-```
+bash
+git clone https://github.com/OmkeshLamb2004/Dapp_Testnet_HHGOA.git
+cd Dapp_Testnet_HHGOA
+
 
 2. Install dependencies
 
-```bash
+bash
 bun install
-```
+
 
 3. Run the development server
 
-```bash
+bash
 bun run dev
-```
+
 
 The dApp should look something like this
 
 ![final_dapp](https://github.com/user-attachments/assets/41896b69-b2cd-4528-892d-fc2adf31cf4a)
 
+### Known Issue:
+We successfully implemented and tested the code in the local environment. However, when using the Testnet, we encountered an issue with wallet transactions. Specifically, when attempting to swap BTC for WBTC on the Testnet site https://testnet.garden.finance/swap/ using a UniSat Testnet wallet address, we received an "Order Expired" error message. This issue appears to be related to the wallet or the Testnet environment and may require further investigation or adjustments.
+
+### Issue:
+![ORDER_EXPIRED](https://github.com/OmkeshLamb2004/Dapp_Testnet_HHGOA/issues/1#issue-2429437328)
+
+### Deployment:
+
+![Site link:](https://dapp-testnet-hhgoa.vercel.app/)
