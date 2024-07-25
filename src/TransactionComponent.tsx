@@ -26,10 +26,14 @@ function TransactionsComponent() {
       garden.subscribeOrders(evmAddress, (updatedOrders) => {
         setOrders((prevOrders) => {
           const updatedOrdersMap = new Map(prevOrders);
-          updatedOrders?.forEach((order) =>
-            updatedOrdersMap.set(order.ID, order)
-          );
-          return updatedOrdersMap;
+          let hasChanges = false;
+          updatedOrders?.forEach((order) => {
+            if (!updatedOrdersMap.has(order.ID) || updatedOrdersMap.get(order.ID) !== order) {
+              updatedOrdersMap.set(order.ID, order);
+              hasChanges = true;
+            }
+          });
+          return hasChanges ? updatedOrdersMap : prevOrders;
         });
       });
     };
@@ -264,52 +268,52 @@ const OrderPopUp: React.FC<PopUp> = ({
   const formattedDate = getFormattedDate(CreatedAt);
 
   return (
-    <div className="pop-up-container" onClick={toggleModelVisible}>
-      <div className="pop-up" onClick={(e) => e.stopPropagation()}>
-        <span>
-          <span className="pop-up-label">ID</span>
-          <span className="pop-up-value">{ID}</span>
-        </span>
-        <span>
-          <span className="pop-up-label">Created At</span>
-          <span className="pop-up-value">{formattedDate}</span>
-        </span>
-
-        <span>
-          <span className="pop-up-label">From</span>
-          <span className="pop-up-value">{from}</span>
-        </span>
-        <span>
-
-          <span className="pop-up-label">To</span>
-          <span className="pop-up-value">{to}</span>
-        </span>
-        <span>
-          <span className="pop-up-label">{fromLabel}</span>
-          <span className="pop-up-value">{Number(fromAmount) / 1e8}</span>
-        </span>
-        <span>
-          <span className="pop-up-label">{toLabel}</span>
-          <span className="pop-up-value">{Number(toAmount) / 1e8}</span>
-        </span>
-        {initiateTxHash && (
-          <span>
-            <span className="pop-up-label">Initiate txHash</span>
-            <span className="pop-up-value">{initiateTxHash}</span>
-          </span>
-        )}
-        {redeemTxHash && (
-          <span>
-            <span className="pop-up-label">Redeem txHash</span>
-            <span className="pop-up-value">{redeemTxHash}</span>
-          </span>
-        )}
-        {refundTxHash && (
-          <span>
-            <span className="pop-up-label">Refund txHash</span>
-            <span className="pop-up-value">{refundTxHash}</span>
-          </span>
-        )}
+    <div className="pop-up">
+      <div className="pop-up-content">
+        <div className="pop-up-header">
+          <div className="pop-up-title">Order Details</div>
+          <button className="pop-up-close" onClick={toggleModelVisible}>
+            &times;
+          </button>
+        </div>
+        <div className="pop-up-body">
+          <div className="pop-up-row">
+            <span className="pop-up-label">Order ID:</span>
+            <span className="pop-up-value">{ID}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">Date:</span>
+            <span className="pop-up-value">{formattedDate}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">From:</span>
+            <span className="pop-up-value">{from}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">To:</span>
+            <span className="pop-up-value">{to}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">{fromLabel} Amount:</span>
+            <span className="pop-up-value">{formatUnits(fromAmount, 8)}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">{toLabel} Amount:</span>
+            <span className="pop-up-value">{formatUnits(toAmount, 8)}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">Initiate Tx Hash:</span>
+            <span className="pop-up-value">{initiateTxHash || "N/A"}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">Redeem Tx Hash:</span>
+            <span className="pop-up-value">{redeemTxHash || "N/A"}</span>
+          </div>
+          <div className="pop-up-row">
+            <span className="pop-up-label">Refund Tx Hash:</span>
+            <span className="pop-up-value">{refundTxHash || "N/A"}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

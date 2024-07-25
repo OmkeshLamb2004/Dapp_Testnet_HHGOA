@@ -3,14 +3,16 @@ import TransactionsComponent from "./TransactionComponent";
 import Balances from "./Balances";
 import { useGardenSetup } from "./store";
 import "./App.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function App() {
   useGardenSetup();
   return (
     <div id="container">
       <Balances />
-      <SwapComponent></SwapComponent>
-      <TransactionsComponent></TransactionsComponent>
+      <SwapComponent />
+      <TransactionsComponent />
+      <SpeedInsights /> {/* Add this component here */}
     </div>
   );
 }

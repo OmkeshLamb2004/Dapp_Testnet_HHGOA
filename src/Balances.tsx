@@ -24,7 +24,7 @@ const Balances: React.FC = () => {
       setBitcoinBalance(Number(formatUnits(balance, 8)).toFixed(6));
 
       const erc20 = new Contract(
-        "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "0xaD9d14CA82d9BF97fFf745fFC7d48172A1c0969E",
         ERC20ABI,
         evmProvider
       );

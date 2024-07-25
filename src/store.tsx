@@ -20,15 +20,16 @@ type EvmWalletAction = {
 };
 
 const networkConfig = {
-  chainId: "0x7A69",
-  chainName: "ethereum localnet",
-  rpcUrls: ["http://localhost:8545"],
+  chainId: "0xAA36A7",
+  chainName: "Sepolia Test Network",
+  rpcUrls: ["https://sepolia.infura.io/v3/0acfc7d2a0c9443795f3b0954fbdb6fc"],
   nativeCurrency: {
-    name: "Ethereum",
-    symbol: "ETH",
+    name: "SepoliaETH",
+    symbol: "SepoliaETH",
     decimals: 18,
   },
 };
+
 
 const useMetaMaskStore = create<EvmWalletState & EvmWalletAction>((set) => ({
   metaMaskIsConnected: false,
@@ -37,7 +38,7 @@ const useMetaMaskStore = create<EvmWalletState & EvmWalletAction>((set) => ({
     if (window.ethereum !== null) {
       let provider = new BrowserProvider(window.ethereum);
       let network = await provider.getNetwork();
-      if (network.chainId !== 31337n) {
+      if (network.chainId !== 11155111n) {
         await window.ethereum.request({
           method: "wallet_addEthereumChain",
           params: [networkConfig],
@@ -109,12 +110,12 @@ const useGardenSetup = () => {
       const signer = await evmProvider.getSigner();
 
       const bitcoinProvider = new BitcoinProvider(
-        BitcoinNetwork.Regtest,
-        "http://localhost:30000"
+        BitcoinNetwork.Testnet
+        
       );
 
       const orderbook = await Orderbook.init({
-        url: "http://localhost:8080",
+        url: "https://orderbook-testnet.garden.finance",
         signer: signer,
         opts: {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -124,13 +125,13 @@ const useGardenSetup = () => {
       });
 
       const wallets = {
-        [Chains.bitcoin_regtest]: new BitcoinOTA(bitcoinProvider, signer),
-        [Chains.ethereum_localnet]: new EVMWallet(signer),
+        [Chains.bitcoin_testnet]: new BitcoinOTA(bitcoinProvider, signer),
+        [Chains.ethereum_sepolia]: new EVMWallet(signer),
       };
 
       const garden = new GardenJS(orderbook, wallets);
 
-      setGarden(garden, wallets[Chains.bitcoin_regtest]);
+      setGarden(garden, wallets[Chains.bitcoin_testnet]);
     })();
   }, [evmProvider, setGarden]);
 };
