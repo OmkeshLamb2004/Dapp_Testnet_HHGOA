@@ -38,7 +38,7 @@ We successfully implemented and tested the code in the local environment. Howeve
 
 *Image*:
 
-![Instructions]([https://github.com/OmkeshLamb2004/Dapp_Testnet_HHGOA/issues/1#issue-2429437328](https://github.com/user-attachments/assets/dfb48900-26a1-432e-94b7-079387dbb87b))
+![Instructions](https://github.com/user-attachments/assets/dfb48900-26a1-432e-94b7-079387dbb87b))
 
 ### Deployment
 
